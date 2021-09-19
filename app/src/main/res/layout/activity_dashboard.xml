@@ -1,0 +1,292 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".Dashboard">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/shoppername"
+
+
+                android:layout_width="154dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="false"
+                android:layout_gravity="top|left"
+                android:paddingLeft="25dp"
+                android:paddingTop="15dp"
+                android:text="TextView"
+                android:textSize="20dp"
+                tools:layout_editor_absoluteX="112dp"
+                tools:layout_editor_absoluteY="112dp" />
+
+
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:width="100dp"
+                android:gravity="center|left"
+                android:text="Logout" />
+
+
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/todayword"
+                android:layout_width="154dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="false"
+                android:gravity="left"
+                android:paddingLeft="25dp"
+                android:paddingTop="15dp"
+                android:text="> Today"
+                android:textSize="20dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:id="@+id/todaymorning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="left"
+                android:width="288dip"
+                android:height="80dip"
+                android:gravity="left|center_vertical"
+                android:textColor="#000000"
+
+                android:textColorHighlight="#000000"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF"
+                app:strokeColor="#000000"
+                app:strokeWidth="1dip" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:id="@+id/todayafternoon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="left"
+                android:width="288dip"
+                android:height="80dip"
+                android:gravity="left|center_vertical"
+                android:textColor="#000000"
+
+                android:textColorHighlight="#000000"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF"
+                app:strokeColor="#000000"
+                app:strokeWidth="1dip" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:id="@+id/todayevening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="left"
+                android:width="288dip"
+                android:height="80dip"
+                android:gravity="left|center_vertical"
+                android:textColor="#000000"
+
+                android:textColorHighlight="#000000"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF"
+                app:strokeColor="#000000"
+                app:strokeWidth="1dip" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tommorow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/tommorowword"
+                android:layout_width="154dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="false"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:paddingLeft="25dp"
+                android:paddingTop="15dp"
+                android:text="> Tomorrow"
+                android:textSize="20dp" />
+
+        </TableRow>
+
+
+
+
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:id="@+id/tommorowmorning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="left"
+                android:width="288dip"
+                android:height="80dip"
+                android:gravity="left|center_vertical"
+                android:textColor="#000000"
+
+                android:textColorHighlight="#000000"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF"
+                app:strokeColor="#000000"
+                app:strokeWidth="1dip" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:id="@+id/tommorowafternoon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="left"
+                android:width="288dip"
+                android:height="80dip"
+                android:gravity="left|center_vertical"
+                android:textColor="#000000"
+
+                android:textColorHighlight="#000000"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF"
+                app:strokeColor="#000000"
+                app:strokeWidth="1dip" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:id="@+id/tommorowevening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="left"
+                android:width="288dip"
+                android:height="80dip"
+                android:gravity="left|center_vertical"
+                android:textColor="#000000"
+
+                android:textColorHighlight="#000000"
+                android:textSize="14sp"
+                app:backgroundTint="#FFFFFF"
+                app:strokeColor="#000000"
+                app:strokeWidth="1dip" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp">
+
+
+
+        </TableRow>
+
+
+
+    </TableLayout>
+</ScrollView>

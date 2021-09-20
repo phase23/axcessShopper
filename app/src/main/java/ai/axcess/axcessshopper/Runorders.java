@@ -74,7 +74,7 @@ public class Runorders extends AppCompatActivity {
 
 
                 Log.i("[print]", "https://axcess.ai/barapp/shopper_scanupc.php?upc=" + barcodeStr + "&ordertoken="+ ordertoken );
-                doGetRequest("https://axcess.ai/barapp/shopper_scanupc.php?upc=" + barcodeStr + "&ordertoken="+ ordertoken);
+                doScanupc("https://axcess.ai/barapp/shopper_scanupc.php?upc=" + barcodeStr + "&ordertoken="+ ordertoken);
             } catch (IOException e) {
                 e.printStackTrace();
             }

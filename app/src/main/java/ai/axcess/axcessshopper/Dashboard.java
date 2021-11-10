@@ -370,7 +370,7 @@ public class Dashboard extends AppCompatActivity {
 
 
                                 tommorowevening.setText(date6);
-                                tommorowevening.setText(date6);
+                                tommorowevening.setTag(tag6);
                                 if(c6.equals("0") ) {
                                     tommorowevening.setEnabled(false);
                                 }

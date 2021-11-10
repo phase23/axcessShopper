@@ -224,6 +224,7 @@ public class Listorders extends AppCompatActivity {
         textView.setGravity(Gravity.CENTER);
         */
 
+
                 TextView newtxt = new TextView(getApplicationContext());
                 newtxt.setText(Html.fromHtml(printwforce));
                 newtxt.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);

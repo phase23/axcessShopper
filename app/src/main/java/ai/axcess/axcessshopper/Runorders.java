@@ -2,13 +2,16 @@ package ai.axcess.axcessshopper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.device.ScanDevice;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
@@ -18,10 +21,15 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+//import com.squareup.picasso.Picasso;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,6 +43,7 @@ import okhttp3.Response;
 
 public class Runorders extends AppCompatActivity {
     Button back;
+    Button bntclick;
     ProgressBar progressBar;
     String fname;
     String cunq;
@@ -51,40 +60,7 @@ public class Runorders extends AppCompatActivity {
     private String barcodeStr;
 
 
-    private BroadcastReceiver mScanReceiver = new BroadcastReceiver() {
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            byte[] barocode = intent.getByteArrayExtra("barocode");
-            int barocodelen = intent.getIntExtra("length", 0);
-            byte temp = intent.getByteExtra("barcodeType", (byte) 0);
-            byte[] aimid = intent.getByteArrayExtra("aimid");
-            barcodeStr = new String(barocode, 0, barocodelen);
-            //showScanResult.append(barcodeStr);
-           // showScanResult.append("\n");
-           // cardresult = getIntent().getExtras().getString("Returned");
-            String outupc = getlpost();
-            Toast.makeText(getApplicationContext(), "barcode: " + barcodeStr + "UPC: "+ outupc , Toast.LENGTH_LONG).show();
-
-
-            sm.stopScan();
-
-            try {
-
-
-                Log.i("[print]", "https://axcess.ai/barapp/shopper_scanupc.php?upc=" + barcodeStr + "&ordertoken="+ ordertoken );
-                doScanupc("https://axcess.ai/barapp/shopper_scanupc.php?upc=" + barcodeStr + "&ordertoken="+ ordertoken);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-
-
-
-        }
-    };
 
 
     @Override
@@ -211,46 +187,7 @@ public class Runorders extends AppCompatActivity {
 
 
 
-    void doScanupc(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
 
-        OkHttpClient client = new OkHttpClient();
-        client.newCall(request)
-                .enqueue(new Callback() {
-                    @Override
-                    public void onFailure(final Call call, IOException e) {
-                        // Error
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // For the example, you can show an error dialog or a toast
-                                // on the main UI thread
-                                Log.i("[print]","error" + e);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(Call call, final Response response) throws IOException {
-                        postaction = response.body().string();
-                        Log.i("assyn url",postaction);
-                        // Do something with the response
-
-
-                        Log.i("[print]",postaction);
-                        postaction = postaction.trim();
-
-
-
-
-
-
-                    }
-                });
-    }
 
 
 
@@ -329,12 +266,13 @@ public class Runorders extends AppCompatActivity {
 
 
                 int imgResource = R.drawable.ic_baseline_view_comfy_24;
+                int checkResource = R.drawable.ic_baseline_playlist_add_check_24;
 
 
                 System.out.println("number scantxt : "+ scantext );
                 // String[] separated = scantext.split(Pattern.quote("|"));
 
-                String[] dishout = scantext.split(Pattern.quote("/"));
+                String[] dishout = scantext.split(Pattern.quote("@"));
 
                 int makebtn = dishout.length ;
                 String tline;
@@ -358,15 +296,17 @@ public class Runorders extends AppCompatActivity {
                 TextView newtxt = new TextView(getApplicationContext());
                 newtxt.setText(Html.fromHtml(printwforce));
                 newtxt.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
-                newtxt.setPadding(0, 0, 0, 20 );
+                newtxt.setPadding(0, 0, 0, 5 );
                 newtxt.setTypeface(null, Typeface.BOLD);
                 newtxt.setGravity(Gravity.CENTER);
                 layout.addView(newtxt);
 
                 int idup;
+                int btnnumb;
                 System.out.println(makebtn + "number buttons: " + Arrays.toString(dishout));
                 for (int i = 0; i < makebtn; i++) {
                     idup = i + 20;
+                    btnnumb = i + 1;
 
 
 
@@ -375,6 +315,12 @@ public class Runorders extends AppCompatActivity {
                     String returnorder = sbtns[0];
                      String upc = sbtns[1];
                      upc_count = sbtns[2];
+                    String thisaisle = sbtns[3];
+                    String thisimg = sbtns[4];
+                    String btncolor = sbtns[5];
+
+
+
                     //String price = sbtns[1];
                     //String ordertoken = sbtns[2];
 
@@ -393,13 +339,26 @@ public class Runorders extends AppCompatActivity {
                     panel.setBackgroundColor(getResources().getColor(R.color.gray));
 */
 
+                    ImageView image = new ImageView(getApplicationContext());
+                   //image.setLayoutParams(params);
+                    image.setMaxHeight(1);
+                    image.setMaxWidth(1);
+
+                    //image.setImageDrawable(drawable);
+                    layout.addView(image);
+                    Picasso.with(getApplicationContext())
+                            .load(thisimg)
+                            .resize(600, 400) // resizes the image to these dimensions (in pixel)
+                            .centerInside()
+                            //.fit()
+                            .into(image);
 
 
                     Button btn = new Button(getApplicationContext());
-                    btn.setId(i);
-                    btn.setTag(orderblock + "~" + upc + "~" + i);
+                    btn.setId(btnnumb);
+                    btn.setTag(orderblock + "~" + upc + "~" + btnnumb);
                     final int theorder = btn.getId();
-                    btn.setText(Html.fromHtml(returnorder + " (" +  upc_count  + ")"));
+                    btn.setText(Html.fromHtml(thisaisle + returnorder + " (" +  upc_count  + ")") );
                     params.width = 300;
                     btn.setTextSize(16);
                     btn.setLayoutParams(acceptbtn);
@@ -408,6 +367,21 @@ public class Runorders extends AppCompatActivity {
                     btn.setTextColor(getResources().getColor(R.color.black));
                     btn.setCompoundDrawablesWithIntrinsicBounds(imgResource, 0, 0, 0);
                     btn.setCompoundDrawablePadding(8);
+
+                    switch(btncolor){
+                        case "default":
+                            //btn.setBackgroundColor(Color.parseColor("#ff2233"));
+                            break;
+                        case "amber":
+                            btn.setBackgroundColor(Color.parseColor("#cfbe06"));
+                            break;
+                        case "green":
+                            btn.setBackgroundColor(Color.parseColor("#4dc405"));
+                            break;
+
+
+                    }
+
                     layout.addView(btn);
 
 
@@ -453,17 +427,283 @@ public class Runorders extends AppCompatActivity {
                 }//end make buttons
 
 
-            }
-        });
+                int dontbtn = 999;
+                Button done = new Button(getApplicationContext());
+                done.setId(dontbtn);
+                done.setTag(orderblock + "~" + dontbtn);
+                final int theorder = done.getId();
+                done.setText(Html.fromHtml("> Completed" ));
+                params.width = 300;
+                done.setTextSize(16);
+                done.setLayoutParams(acceptbtn);
+                done.setPadding(5, 3, 5, 3 );
+                done.setBackgroundColor(getResources().getColor(R.color.gray));
+                done.setTextColor(getResources().getColor(R.color.black));
+                done.setCompoundDrawablesWithIntrinsicBounds(checkResource, 0, 0, 0);
+                done.setCompoundDrawablePadding(8);
+                done.setBackgroundColor(Color.parseColor("#4dc405"));
+                layout.addView(done);
 
+                done.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View view) {
+                        final String tagname = (String)view.getTag();
+                        Log.i("accept tag", tagname);
+
+
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Runorders.this);
+                        builder.setTitle("Confirm");
+
+                        builder.setMessage(Html.fromHtml("Confirm shopping completed"));
+
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // Do nothing, but close the dialog
+                                dialog.dismiss();
+                                System.out.println("action numbers tag "+ tagname);
+                                String releaseid = tagname;
+
+
+
+                                try {
+
+                                    Log.i("[print]", "https://axcess.ai/barapp/shopper_docomplete.php?orderdetails=" + tagname  );
+                                    doCompletion("https://axcess.ai/barapp/shopper_docomplete.php?orderdetails=" + tagname);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                                Intent intent = new Intent(Runorders.this, Listorders.class);
+                                //intent.putExtra("userid",releaseid);
+                                intent.putExtra("timeslot",timerslot);
+                                startActivity(intent);
+
+
+
+                            }
+                        });
+
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // Do nothing
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
+
+                    }
+                });
+
+
+
+
+        }
+        });
 
     }
 
 
 
+    void doCompletion(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(final Call call, IOException e) {
+                        // Error
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+                                Log.i("[print]","error" + e);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        postaction = response.body().string();
+                        Log.i("assyn url",postaction);
+                        // Do something with the response
 
 
 
+                    }
+                });
+    }
+
+
+    private BroadcastReceiver mScanReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            byte[] barocode = intent.getByteArrayExtra("barocode");
+            int barocodelen = intent.getIntExtra("length", 0);
+            byte temp = intent.getByteExtra("barcodeType", (byte) 0);
+            byte[] aimid = intent.getByteArrayExtra("aimid");
+            barcodeStr = new String(barocode, 0, barocodelen);
+            //showScanResult.append(barcodeStr);
+            // showScanResult.append("\n");
+            // cardresult = getIntent().getExtras().getString("Returned");
+            String outupc = getlpost();
+            String[] pieces = outupc.split(Pattern.quote("~"));
+
+            String thisupc = pieces[0];
+            String btnid = pieces[1];
+
+            int myNum = 0;
+
+            try {
+                myNum = Integer.parseInt(btnid);
+            } catch(NumberFormatException nfe) {
+                System.out.println("Could not parse " + nfe);
+            }
+
+            //myNum = myNum + myNum + 1;
+            //Toast.makeText(getApplicationContext(), "xpressed upc: " + myNum  , Toast.LENGTH_LONG).show();
+
+            //Toast.makeText(getApplicationContext(), "barcode: " + barcodeStr + "UPC: "+ thisupc , Toast.LENGTH_LONG).show();
+            sm.stopScan();
+
+            if(!thisupc.equals(barcodeStr)) {
+                /*
+                LinearLayout layout = (LinearLayout) findViewById(R.id.scnf_run);
+                View v = null;
+                v = layout.getChildAt(myNum);
+                v.setBackgroundColor(Color.parseColor("#ff2233"));
+                */
+
+                final Button btn_tmp;
+                btn_tmp = (Button) findViewById(myNum);
+                btn_tmp.setBackgroundColor(Color.parseColor("#ff2233"));
+
+            }else {
+
+                try {
+
+
+                    Log.i("[print]", "https://axcess.ai/barapp/shopper_scanupc.php?upc=" + barcodeStr + "&ordertoken=" + ordertoken + "&btnpress=" + myNum + "&thisupc=" + thisupc);
+                    doScanupc("https://axcess.ai/barapp/shopper_scanupc.php?upc=" + barcodeStr + "&ordertoken=" + ordertoken + "&btnpress=" + myNum + "&thisupc=" + thisupc);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+
+        }
+    };
+
+
+    void doScanupc(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(final Call call, IOException e) {
+                        // Error
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+                                Log.i("[print]","error" + e);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        postaction = response.body().string();
+                        Log.i("assyn url",postaction);
+                        // Do something with the response
+
+
+                        Log.i("[print]",postaction);
+                        postaction = postaction.trim();
+
+                        String[] pieces = postaction.split(Pattern.quote("~"));
+
+                        String output = pieces[0].trim();
+                        String btnid = pieces[1].trim();
+                        String colorout = pieces[2].trim();
+                        String updatedcount = pieces[3].trim();
+                        String updatedbtn = pieces[4].trim();
+                        Log.i("[print]",output);
+                        int myNum = 0;
+
+                        try {
+                            myNum = Integer.parseInt(btnid);
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        //myNum = myNum + 1;
+                        //myNum = myNum + myNum + 1;
+                        //Toast.makeText(getApplicationContext(), "pressed upc: " + myNum  , Toast.LENGTH_LONG).show();
+                        System.out.println("element :" + myNum + " color: " + colorout);
+                        LinearLayout layout = (LinearLayout) findViewById(R.id.scnf_run);
+                        View v = null;
+                        v = layout.getChildAt(myNum);
+
+                        //TextView textOut = (TextView)row.findViewById(R.id.textout);
+                        //bntclick = (Button)findViewById(R.id.);
+                        final Button btn_tmp;
+                        btn_tmp = (Button) findViewById(myNum);
+
+                        //int get_bgn = 1;
+                        //btn_tmp = (Button) findViewById(get_bgn);
+                        //btn_tmp.setText("Change this");
+
+                        switch(colorout){
+                            case "red":
+                            //v.setBackgroundColor(Color.parseColor("#ff2233"));
+                                btn_tmp.setBackgroundColor(Color.parseColor("#ff2233"));
+                                btn_tmp.setText(Html.fromHtml(updatedbtn));
+                     break;
+                            case "amber":
+                           // v.setBackgroundColor(Color.parseColor("#cfbe06"));
+                                btn_tmp.setBackgroundColor(Color.parseColor("#cfbe06"));
+                                btn_tmp.setText(Html.fromHtml(updatedbtn));
+                         break;
+                            case "green":
+                               // v.setBackgroundColor(Color.parseColor("#4dc405"));
+                                btn_tmp.setBackgroundColor(Color.parseColor("#4dc405"));
+                                btn_tmp.setText(Html.fromHtml(updatedbtn));
+                                break;
+
+
+                        }
+
+
+
+                    }
+                });
+    }
 
 
 

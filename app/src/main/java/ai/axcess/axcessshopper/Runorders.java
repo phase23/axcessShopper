@@ -432,7 +432,7 @@ public class Runorders extends AppCompatActivity {
                 done.setId(dontbtn);
                 done.setTag(orderblock + "~" + dontbtn);
                 final int theorder = done.getId();
-                done.setText(Html.fromHtml("> Completed" ));
+                done.setText(Html.fromHtml("Set as Completed" ));
                 params.width = 300;
                 done.setTextSize(16);
                 done.setLayoutParams(acceptbtn);

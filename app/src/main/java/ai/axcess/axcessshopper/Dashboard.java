@@ -285,18 +285,21 @@ public class Dashboard extends AppCompatActivity {
                                     String date1 = breakd1[0].trim();
                                     String tag1 = breakd1[1].trim();
                                      String c1 = breakd1[2].trim();
+                                     String stat1 = breakd1[3].trim();
 
                         String d2 = pieces[1];
                                 String[] breakd2 = d2.split(Pattern.quote("~"));
                                 String date2 = breakd2[0].trim();
                                 String tag2 = breakd2[1].trim();
                                 String c2 = breakd2[2].trim();
+                                String stat2 = breakd2[3].trim();
 
                         String d3 = pieces[2];
                             String[] breakd3 = d3.split(Pattern.quote("~"));
                             String date3 = breakd3[0].trim();
                             String tag3 = breakd3[1].trim();
                             String c3 = breakd3[2].trim();
+                            String stat3 = breakd3[3].trim();
 
                         Log.i("[count]",c3);
 
@@ -305,7 +308,7 @@ public class Dashboard extends AppCompatActivity {
                             String date4 = breakd4[0].trim();
                             String tag4 = breakd4[1].trim();
                              String c4 = breakd4[2].trim();
-
+                        String stat4 = breakd4[3].trim();
 
 
                         String d5 = pieces[4];
@@ -313,14 +316,14 @@ public class Dashboard extends AppCompatActivity {
                             String date5 = breakd5[0].trim();
                             String tag5 = breakd5[1].trim();
                             String c5 = breakd5[2].trim();
-
+                        String stat5 = breakd5[3].trim();
 
                         String d6 = pieces[5];
                             String[] breakd6 = d6.split(Pattern.quote("~"));
                             String date6 = breakd6[0].trim();
                             String tag6 = breakd6[1].trim();
                             String c6 = breakd6[2].trim();
-
+                        String stat6 = breakd6[3].trim();
 
 
                         runOnUiThread(new Runnable() {
@@ -335,6 +338,10 @@ public class Dashboard extends AppCompatActivity {
                                     todaymorning.setEnabled(false);
                                 }
 
+                                if(stat1.equals("Yes")){
+                                    todaymorning.setBackgroundColor(Color.parseColor("#4dc405"));
+                                }
+
 
 
                         todayafternoon.setText(date2);
@@ -342,7 +349,9 @@ public class Dashboard extends AppCompatActivity {
                                 if(c2.equals("0") ) {
                                     todayafternoon.setEnabled(false);
                                 }
-
+                                if(stat2.equals("Yes")){
+                                    todayafternoon.setBackgroundColor(Color.parseColor("#4dc405"));
+                                }
 
 
 
@@ -350,6 +359,10 @@ public class Dashboard extends AppCompatActivity {
                                 todayevening.setTag(tag3);
                                 if(c3.equals("0") ) {
                                     todayevening.setEnabled(false);
+                                }
+
+                                if(stat3.equals("Yes")){
+                                    todayevening.setBackgroundColor(Color.parseColor("#4dc405"));
                                 }
 
 
@@ -360,12 +373,19 @@ public class Dashboard extends AppCompatActivity {
                                     tommorowmorning.setEnabled(false);
                                 }
 
+                                if(stat4.equals("Yes")){
+                                    tommorowmorning.setBackgroundColor(Color.parseColor("#4dc405"));
+                                }
 
 
                                 tommorowafternoon.setText(date5);
                                 tommorowafternoon.setTag(tag5);
                                 if(c5.equals("0") ) {
                                     tommorowafternoon.setEnabled(false);
+                                }
+
+                                if(stat5.equals("Yes")){
+                                    tommorowafternoon.setBackgroundColor(Color.parseColor("#4dc405"));
                                 }
 
 
@@ -375,6 +395,9 @@ public class Dashboard extends AppCompatActivity {
                                     tommorowevening.setEnabled(false);
                                 }
 
+                                if(stat6.equals("Yes")){
+                                    tommorowevening.setBackgroundColor(Color.parseColor("#4dc405"));
+                                }
 
                             }
                         });

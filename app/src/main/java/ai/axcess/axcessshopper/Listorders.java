@@ -245,6 +245,7 @@ public class Listorders extends AppCompatActivity {
                     String orderno = sbtns[0];
                     String price = sbtns[1];
                     String ordertoken = sbtns[2];
+                    String outstat = sbtns[3];
 
                     // System.out.println(makebtn + "action listed: " +  printwforce + "col:  " +  imgx );
 /*
@@ -276,6 +277,12 @@ public class Listorders extends AppCompatActivity {
                     btn.setTextColor(getResources().getColor(R.color.black));
                     btn.setCompoundDrawablesWithIntrinsicBounds(imgResource, 0, 0, 0);
                     btn.setCompoundDrawablePadding(8);
+
+                    if(outstat.equals("Completed")){
+                        btn.setBackgroundColor(Color.parseColor("#4dc405"));
+                    }
+
+
                     layout.addView(btn);
 
 

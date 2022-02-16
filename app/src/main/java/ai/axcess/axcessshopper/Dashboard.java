@@ -42,6 +42,7 @@ public class Dashboard extends AppCompatActivity {
     Button tommorowmorning;
     Button tommorowafternoon;
     Button tommorowevening;
+    Button refresh;
 
 
 
@@ -87,6 +88,10 @@ public class Dashboard extends AppCompatActivity {
         tommorowafternoon = (Button)findViewById(R.id.tommorowafternoon);
         tommorowevening = (Button)findViewById(R.id.tommorowevening);
 
+        refresh = (Button)findViewById(R.id.refresh);
+
+
+
         try {
 
 
@@ -98,6 +103,18 @@ public class Dashboard extends AppCompatActivity {
 
 
 
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+
+            }
+
+        });
 
 
         llogout.setOnClickListener(new View.OnClickListener() {

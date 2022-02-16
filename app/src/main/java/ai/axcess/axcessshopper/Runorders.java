@@ -14,13 +14,17 @@ import android.device.ScanDevice;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -254,7 +258,13 @@ public class Runorders extends AppCompatActivity {
                 Params1.setMargins(0, 0, 0, 0);
 
                 LinearLayout.LayoutParams acceptbtn = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,180);
-                acceptbtn.setMargins(0, 0, 0, 60);
+                acceptbtn.setMargins(0, 0, 0, 10);
+
+                LinearLayout.LayoutParams edittxt = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,180);
+                edittxt.setMargins(0, 0, 0, 0);
+
+
+
                 LinearLayout.LayoutParams declinebtn = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,180);
                 declinebtn.setMargins(0, 0, 0, 60);
 
@@ -303,8 +313,11 @@ public class Runorders extends AppCompatActivity {
 
                 int idup;
                 int btnnumb;
+                int manscan;
                 System.out.println(makebtn + "number buttons: " + Arrays.toString(dishout));
                 for (int i = 0; i < makebtn; i++) {
+                    int p = i *4;
+                    manscan = p + 30;
                     idup = i + 20;
                     btnnumb = i + 1;
 
@@ -318,9 +331,10 @@ public class Runorders extends AppCompatActivity {
                     String thisaisle = sbtns[3];
                     String thisimg = sbtns[4];
                     String btncolor = sbtns[5];
-
-
-
+                    String itemprice = sbtns[6];
+                    String itemname = sbtns[7];
+                    String itembid = sbtns[8];
+                    String oitemid = sbtns[9];
                     //String price = sbtns[1];
                     //String ordertoken = sbtns[2];
 
@@ -356,7 +370,7 @@ public class Runorders extends AppCompatActivity {
 
                     Button btn = new Button(getApplicationContext());
                     btn.setId(btnnumb);
-                    btn.setTag(orderblock + "~" + upc + "~" + btnnumb);
+                    btn.setTag(orderblock + "~" + upc + "~" + btnnumb );
                     final int theorder = btn.getId();
                     btn.setText(Html.fromHtml(thisaisle + returnorder + " (" +  upc_count  + ")") );
                     params.width = 300;
@@ -384,14 +398,93 @@ public class Runorders extends AppCompatActivity {
 
                     layout.addView(btn);
 
+                    Button btn2 = new Button(getApplicationContext());
+                    btn2.setId(manscan);
+                    btn2.setTag(orderblock + "~" + upc + "~" + btnnumb + '~' + itemprice + '~' + itemname + '~' + itembid + '~' + oitemid) ;
+                    final int theorder2 = btn2.getId();
+                    btn2.setText(Html.fromHtml("Update Item Price" ));
+                    params.width = 300;
+                    btn2.setTextSize(16);
+                    btn2.setLayoutParams(acceptbtn);
+                    btn2.setPadding(5, 3, 5, 3 );
+                    btn2.setBackgroundColor(getResources().getColor(R.color.black));
+                    btn2.setTextColor(getResources().getColor(R.color.white));
+                    layout.addView(btn2);
 
+                    btn2 = ((Button) findViewById(theorder2));
+                    btn2.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View view) {
+
+                            final String tagname = (String)view.getTag();
+                            Log.i("accept tag", tagname);
+
+
+                            String[] readpack = tagname.split("~");
+                            String btnprice = readpack[4];
+                            String btnname = readpack[5];
+                            String btnnumber= readpack[3];
+                            String oitemidc = readpack[7];
+
+                            AlertDialog.Builder alert = new AlertDialog.Builder(Runorders.this);
+                            final EditText edittext = new EditText(getApplicationContext());
+                            alert.setMessage(btnname);
+                            alert.setTitle("Set price below");
+                            edittext.setText(btnprice);
+                           // edittext.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
+                            edittext.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL); //for decimal numbers
+                            edittext.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED); //for positive or negative values
+                            edittext.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
+                            alert.setView(edittext);
+
+
+
+                            alert.setPositiveButton("Update Price", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    //What ever you want to do with the value
+                                    //Editable YouEditTextValue = edittext.getText();
+                                    //OR
+                                    String newprice = edittext.getText().toString();
+                                    System.out.println("print : "+ newprice );
+
+
+                                    try {
+
+
+                                        //Log.i("[print]", "https://axcess.ai/barapp/shopper_scanupc.php?price=" + newprice + "&bid=" + itembid + "&btnpress=" + myNum + "&thisupc=" + thisupc);
+                                        doUpdateprice("https://axcess.ai/barapp/shopper_updateprice.php?price=" + newprice + "&item=" + oitemidc + "&btnpress=" + btnnumber + "&ordertoken=" + ordertoken);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+
+
+
+
+
+
+
+
+                                }
+                            });
+
+                            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // what ever you want to do with No option.
+                                }
+                            });
+
+                            alert.show();
+
+
+
+                        }
+                    });
 
 
 
                     btn = ((Button) findViewById(theorder));
-
-
-
                     btn.setOnClickListener(new View.OnClickListener() {
 
                         public void onClick(View view) {
@@ -612,6 +705,105 @@ public class Runorders extends AppCompatActivity {
 
         }
     };
+
+
+    void doUpdateprice( String url)  throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request)
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(final Call call, IOException e) {
+                        // Error
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // For the example, you can show an error dialog or a toast
+                                // on the main UI thread
+                                Log.i("[print]","error" + e);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        postaction = response.body().string();
+                        Log.i("assyn url",postaction);
+                        // Do something with the response
+
+
+                        Log.i("[print]",postaction);
+                        postaction = postaction.trim();
+
+                        String[] pieces = postaction.split(Pattern.quote("~"));
+
+                        String output = pieces[0].trim();
+                        String btnid = pieces[1].trim();
+                        String colorout = pieces[2].trim();
+                        String updatedcount = pieces[3].trim();
+                        String updatedbtn = pieces[4].trim();
+                        Log.i("[print]",output);
+                        int myNum = 0;
+
+                        try {
+                            myNum = Integer.parseInt(btnid);
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        //myNum = myNum + 1;
+                        //myNum = myNum + myNum + 1;
+                        //Toast.makeText(getApplicationContext(), "pressed upc: " + myNum  , Toast.LENGTH_LONG).show();
+                        System.out.println("element :" + myNum + " color: " + colorout);
+                        LinearLayout layout = (LinearLayout) findViewById(R.id.scnf_run);
+                        View v = null;
+                        v = layout.getChildAt(myNum);
+
+                        //TextView textOut = (TextView)row.findViewById(R.id.textout);
+                        //bntclick = (Button)findViewById(R.id.);
+                        final Button btn_tmp;
+                        btn_tmp = (Button) findViewById(myNum);
+
+                        //int get_bgn = 1;
+                        //btn_tmp = (Button) findViewById(get_bgn);
+                        //btn_tmp.setText("Change this");
+
+                        switch(colorout){
+                            case "red":
+                                //v.setBackgroundColor(Color.parseColor("#ff2233"));
+                                btn_tmp.setBackgroundColor(Color.parseColor("#ff2233"));
+                                btn_tmp.setText(Html.fromHtml(updatedbtn));
+                                break;
+                            case "amber":
+                                // v.setBackgroundColor(Color.parseColor("#cfbe06"));
+                                btn_tmp.setBackgroundColor(Color.parseColor("#cfbe06"));
+                                btn_tmp.setText(Html.fromHtml(updatedbtn));
+                                break;
+                            case "green":
+                                // v.setBackgroundColor(Color.parseColor("#4dc405"));
+                                btn_tmp.setBackgroundColor(Color.parseColor("#4dc405"));
+                                btn_tmp.setText(Html.fromHtml(updatedbtn));
+                                break;
+
+
+                        }
+
+
+
+                    }
+                });
+
+    }
+
+
+
+
+
+
 
 
     void doScanupc(String url) throws IOException {
